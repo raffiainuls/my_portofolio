@@ -23,7 +23,7 @@ export const experience: ExperienceItem[] = [
       "Technology company delivering digital solutions for government and enterprise clients.",
     highlights: [
       "Part of the SMILE platform — a national immunization logistics system owned by Kemenkes, in production across all health facilities in Indonesia — built with UNDP and cross-functional teams.",
-      "Built the streaming pipeline on the OLTP side: AWS RDS MySQL → Debezium (CDC) → Kafka → ETL streaming → Amazon S3 → ClickHouse.",
+      "Built the streaming pipeline on the OLTP side: AWS RDS MySQL → Debezium (CDC) → Kafka → RisingWave (streaming ETL) → Amazon S3 → ClickHouse.",
       "Built batch pipelines on the ClickHouse side for the gold layer, with analytics modeled in dbt.",
       "Orchestrated workflows with Jenkins and Dagster; entire environment runs on Kubernetes and is monitored with Grafana.",
       "Maintain the Kubernetes cluster and ensure data reliability, consistency, and readiness for downstream analytics.",
@@ -32,6 +32,7 @@ export const experience: ExperienceItem[] = [
       "AWS RDS",
       "Debezium",
       "Apache Kafka",
+      "RisingWave",
       "Amazon S3",
       "ClickHouse",
       "dbt",

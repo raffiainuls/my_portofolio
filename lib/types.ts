@@ -14,6 +14,57 @@ export type ProjectCategory =
   | "Data Analysis";
 
 /**
+ * The "kind" of a node in an architecture flow. It only picks the icon + accent
+ * shown on the node — purely visual. Add new kinds in the icon map inside
+ * components/ArchitectureFlow.tsx if you need more.
+ */
+export type FlowNodeKind =
+  | "source"
+  | "cdc"
+  | "stream"
+  | "processing"
+  | "storage"
+  | "warehouse"
+  | "analytics"
+  | "app"
+  | "orchestration"
+  | "infra"
+  | "default";
+
+/** One box in the pipeline diagram. */
+export interface FlowNode {
+  /** Main label, e.g. "Kafka". Keep it short so the row stays compact. */
+  label: string;
+  /** Small caption under the label, e.g. "Event streaming". */
+  sub?: string;
+  /** Picks the icon/color. Defaults to "default". */
+  kind?: FlowNodeKind;
+}
+
+/** A labelled group of supporting tools shown beneath the main flow. */
+export interface FlowSupportGroup {
+  label: string;
+  items: string[];
+}
+
+/**
+ * An animated architecture diagram for a project.
+ *
+ * `flow` is the ordered main pipeline (drawn left → right on desktop, top →
+ * bottom on mobile) with animated connectors between each step. `supporting`
+ * holds cross-cutting tools (orchestration, infra, monitoring) shown below.
+ * Everything is data — one <ArchitectureFlow> component renders it.
+ */
+export interface Architecture {
+  /** Optional one-line caption shown under the "Architecture" title. */
+  caption?: string;
+  /** The main pipeline, in order. */
+  flow: FlowNode[];
+  /** Optional supporting tool groups (orchestration, infra, monitoring…). */
+  supporting?: FlowSupportGroup[];
+}
+
+/**
  * One project = one "module".
  *
  * To add a project to the whole site, you only ever add an object of this shape
@@ -46,8 +97,13 @@ export interface Project {
   role?: string;
   /** Optional: context (employer, course, competition, client). */
   context?: string;
-  /** Optional: path to an architecture diagram, e.g. "/images/smile-arch.png". */
+  /** Optional: path to a STATIC architecture diagram image, e.g. "/images/smile-arch.png". */
   diagram?: string;
+  /**
+   * Optional: an ANIMATED, theme-matched architecture flow (preferred over a
+   * static image). If set, the project page renders <ArchitectureFlow>.
+   */
+  architecture?: Architecture;
   /** Optional: link to source code. */
   github?: string;
   /** Optional: link to a live demo. */

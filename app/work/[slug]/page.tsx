@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { ProjectCard } from "@/components/ProjectCard";
+import { ArchitectureFlow } from "@/components/ArchitectureFlow";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -122,8 +123,12 @@ export default async function ProjectPage({ params }: PageProps) {
           )}
         </FadeIn>
 
-        {/* Optional architecture diagram */}
-        {project.diagram ? (
+        {/* Architecture: prefer the animated flow; fall back to a static image. */}
+        {project.architecture ? (
+          <div className="mt-12">
+            <ArchitectureFlow architecture={project.architecture} />
+          </div>
+        ) : project.diagram ? (
           <FadeIn delay={0.1} className="mt-12">
             <div className="overflow-hidden rounded-2xl border border-border bg-surface">
               <Image

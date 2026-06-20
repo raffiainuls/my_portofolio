@@ -48,6 +48,56 @@
     background-image: radial-gradient(circle, #1f1f1f 1px, transparent 1px);
     background-size: 28px 28px;
   }
+
+  /* ── Animated connector lines for the architecture flow ──────────────────
+     A cyan "pulse" of light travels along the connector. Pure CSS (no JS):
+     a wide gradient with one bright band, slid across via background-position.
+     `.flow-x` runs left→right (desktop), `.flow-y` runs top→bottom (mobile). */
+  .flow-x {
+    background-image: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 35%,
+      #22d3ee 50%,
+      transparent 65%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: flow-x 2s linear infinite;
+  }
+
+  .flow-y {
+    background-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 35%,
+      #22d3ee 50%,
+      transparent 65%,
+      transparent 100%
+    );
+    background-size: 100% 200%;
+    background-repeat: no-repeat;
+    animation: flow-y 2s linear infinite;
+  }
+}
+
+@keyframes flow-x {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+@keyframes flow-y {
+  0% {
+    background-position: 0 100%;
+  }
+  100% {
+    background-position: 0 0%;
+  }
 }
 
 /* Respect users who prefer reduced motion: disable all animation/transition */

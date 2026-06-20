@@ -30,11 +30,11 @@ export const projects: Project[] = [
       "National immunization logistics system in production across all of Indonesia — streaming CDC + batch analytics platform.",
     description: [
       "SMILE is a national immunization logistics system built for the Indonesian Ministry of Health (Kemenkes) with UNDP, running in production across every health facility in the country — from Sabang to Merauke.",
-      "On the OLTP side I built the streaming pipeline: change data capture from AWS RDS MySQL via a Debezium connector into Kafka, ETL streaming into Amazon S3, and finally into ClickHouse for analytics-ready storage.",
+      "On the OLTP side I built the streaming pipeline: change data capture from AWS RDS MySQL via a Debezium connector into Kafka, streaming ETL with RisingWave into Amazon S3, and finally into ClickHouse for analytics-ready storage.",
       "On the ClickHouse side I built the batch pipelines that produce the gold layer, with analytics modeled in dbt and orchestrated by Jenkins and Dagster. The entire environment runs on Kubernetes, monitored with Grafana — and I also help maintain the cluster.",
     ],
     highlights: [
-      "Real-time CDC pipeline: AWS RDS MySQL → Debezium → Kafka → S3 → ClickHouse",
+      "Real-time CDC pipeline: AWS RDS MySQL → Debezium → Kafka → RisingWave → S3 → ClickHouse",
       "Batch gold-layer pipelines and dbt analytics on ClickHouse",
       "Orchestrated with Jenkins + Dagster, fully containerized on Kubernetes",
       "Production-grade, national scale — every health facility in Indonesia",
@@ -45,6 +45,7 @@ export const projects: Project[] = [
       "AWS RDS",
       "Debezium",
       "Kafka",
+      "RisingWave",
       "Amazon S3",
       "ClickHouse",
       "dbt",
@@ -56,6 +57,25 @@ export const projects: Project[] = [
     diagram: "", // add "/images/smile-arch.png" when ready
     github: "",
     demo: "",
+    // Animated, theme-matched architecture flow (rendered by <ArchitectureFlow>).
+    architecture: {
+      caption:
+        "Real-time CDC streaming from the OLTP database into ClickHouse, then batch pipelines build the analytics gold layer.",
+      flow: [
+        { label: "AWS RDS MySQL", sub: "OLTP source", kind: "source" },
+        { label: "Debezium", sub: "Change Data Capture", kind: "cdc" },
+        { label: "Apache Kafka", sub: "Event streaming", kind: "stream" },
+        { label: "RisingWave", sub: "Streaming ETL", kind: "processing" },
+        { label: "Amazon S3", sub: "Raw landing", kind: "storage" },
+        { label: "ClickHouse", sub: "Warehouse", kind: "warehouse" },
+        { label: "dbt", sub: "Gold layer & analytics", kind: "analytics" },
+      ],
+      supporting: [
+        { label: "Orchestration", items: ["Jenkins", "Dagster"] },
+        { label: "Infrastructure", items: ["Kubernetes"] },
+        { label: "Monitoring", items: ["Grafana"] },
+      ],
+    },
   },
   {
     slug: "fraud-detection",
