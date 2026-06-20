@@ -1,0 +1,63 @@
+/* Tailwind's three layers. `base` = resets + element defaults,
+   `components` = reusable class compositions, `utilities` = single-purpose classes. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor scrolling so section titles aren't hidden under the fixed navbar */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Consistent, accessible focus ring for keyboard users */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
+  }
+
+  /* Custom selection color on-brand */
+  ::selection {
+    @apply bg-accent/30 text-foreground;
+  }
+}
+
+@layer components {
+  /* Reusable gradient text used for accent words in headings */
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent to-cyan-200 bg-clip-text text-transparent;
+  }
+
+  /* Thin uppercase label used above section headings ("eyebrow") */
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.2em] text-accent;
+  }
+}
+
+@layer utilities {
+  /* Subtle dotted grid background for hero / section accents */
+  .bg-grid {
+    background-image: radial-gradient(circle, #1f1f1f 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+}
+
+/* Respect users who prefer reduced motion: disable all animation/transition */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
