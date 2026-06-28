@@ -102,6 +102,22 @@ export const projects: Project[] = [
       "ClickHouse",
       "Grafana",
     ],
+    architecture: {
+      caption:
+        "Real-time fraud detection: transactions flow from a UI through a streaming fraud engine into an analytics store and live dashboard.",
+      flow: [
+        { label: "Flask UI", sub: "Transaction form", kind: "app" },
+        { label: "RabbitMQ", sub: "Message queue", kind: "stream" },
+        { label: "Apache Kafka", sub: "Event streaming", kind: "stream" },
+        { label: "Apache Flink", sub: "Fraud engine", kind: "processing" },
+        { label: "ClickHouse", sub: "via Kafka Connect", kind: "warehouse" },
+        { label: "Grafana", sub: "Live dashboard", kind: "analytics" },
+      ],
+      supporting: [
+        { label: "Integration", items: ["Java Consumer", "Kafka Connect"] },
+        { label: "Infrastructure", items: ["Docker"] },
+      ],
+    },
   },
   {
     slug: "data-pipeline-sales",
@@ -135,6 +151,23 @@ export const projects: Project[] = [
       "SQL Server",
       "MongoDB",
     ],
+    architecture: {
+      caption:
+        "Five source databases unified through streaming + batch into a star schema and BI dashboard.",
+      flow: [
+        { label: "Multi-DB Sources", sub: "PG · MySQL · Oracle · MSSQL · Mongo", kind: "source" },
+        { label: "Apache Kafka", sub: "via Kafka Connect", kind: "stream" },
+        { label: "Apache Flink", sub: "Clean & merge", kind: "processing" },
+        { label: "Hadoop", sub: "Parquet landing", kind: "storage" },
+        { label: "Apache Spark", sub: "Dimension tables", kind: "processing" },
+        { label: "ClickHouse", sub: "Analytics store", kind: "warehouse" },
+        { label: "Power BI", sub: "Dashboard", kind: "analytics" },
+      ],
+      supporting: [
+        { label: "Orchestration", items: ["Apache Airflow"] },
+        { label: "Infrastructure", items: ["Docker"] },
+      ],
+    },
   },
   {
     slug: "flink-pipeline-sales",
@@ -154,6 +187,21 @@ export const projects: Project[] = [
       "Live Grafana dashboard",
     ],
     techStack: ["Kafka", "Apache Flink", "ClickHouse", "Grafana"],
+    architecture: {
+      caption:
+        "Real-time sales pipeline: Kafka → Flink streaming ETL → ClickHouse → Grafana dashboard.",
+      flow: [
+        { label: "Sales Data", sub: "CSV producer", kind: "source" },
+        { label: "Apache Kafka", sub: "Event streaming", kind: "stream" },
+        { label: "Apache Flink", sub: "Streaming ETL", kind: "processing" },
+        { label: "ClickHouse", sub: "via Kafka Connect", kind: "warehouse" },
+        { label: "Grafana", sub: "Dashboard", kind: "analytics" },
+      ],
+      supporting: [
+        { label: "Ingestion", items: ["Kafka Connect"] },
+        { label: "Infrastructure", items: ["Docker"] },
+      ],
+    },
   },
   {
     slug: "validation-database",
@@ -181,6 +229,23 @@ export const projects: Project[] = [
       "PostgreSQL",
       "Python",
     ],
+    architecture: {
+      caption:
+        "Cross-database validation: fetches both sides in ID chunks, detects missing IDs and value discrepancies, and writes detailed reports.",
+      flow: [
+        { label: "Source DBs", sub: "Athena · MaxCompute · Oracle · PG · MySQL · CH", kind: "source" },
+        { label: "Concurrent Fetch", sub: "Chunked by ID", kind: "processing" },
+        { label: "Validation Engine", sub: "Missing IDs + discrepancies", kind: "processing" },
+        { label: "CSV Reports", sub: "Timestamped output", kind: "analytics" },
+      ],
+      supporting: [
+        {
+          label: "Databases",
+          items: ["AWS Athena", "Alibaba MaxCompute", "Oracle", "PostgreSQL", "MySQL", "ClickHouse"],
+        },
+        { label: "Built with", items: ["Python", "pandas"] },
+      ],
+    },
   },
 
   // ─────────────────────── DATA ENGINEERING ───────────────────────
@@ -201,6 +266,21 @@ export const projects: Project[] = [
       "Orchestrated with Apache Airflow",
     ],
     techStack: ["Kafka", "Apache Airflow", "PostgreSQL"],
+    architecture: {
+      caption:
+        "Synthetic sales data via both full-load batch and real-time Kafka streaming into PostgreSQL, with Airflow orchestrating scheduled transforms.",
+      flow: [
+        { label: "Data Generator", sub: "Synthetic sales (CSV)", kind: "source" },
+        { label: "Apache Kafka", sub: "Real-time streaming", kind: "stream" },
+        { label: "PostgreSQL", sub: "Full-load + JDBC sink", kind: "warehouse" },
+        { label: "Dimension Tables", sub: "Scheduled SQL", kind: "analytics" },
+      ],
+      supporting: [
+        { label: "Orchestration", items: ["Apache Airflow"] },
+        { label: "Ingestion", items: ["Kafka JDBC Sink"] },
+        { label: "Infrastructure", items: ["Docker"] },
+      ],
+    },
   },
   {
     slug: "spark-pipeline-sales",
@@ -220,6 +300,18 @@ export const projects: Project[] = [
       "Scheduled and observed with Dagster",
     ],
     techStack: ["Kafka", "Apache Spark", "Delta Lake", "PostgreSQL", "Dagster"],
+    architecture: {
+      caption:
+        "Streaming + batch ETL in Spark, stored in Delta Lake and served from PostgreSQL, scheduled with Dagster.",
+      flow: [
+        { label: "Sales Data", sub: "CSV producer", kind: "source" },
+        { label: "Apache Kafka", sub: "Event streaming", kind: "stream" },
+        { label: "Apache Spark", sub: "Streaming + batch ETL", kind: "processing" },
+        { label: "Delta Lake", sub: "Storage layer", kind: "storage" },
+        { label: "PostgreSQL", sub: "Serving DB", kind: "warehouse" },
+      ],
+      supporting: [{ label: "Orchestration", items: ["Dagster"] }],
+    },
   },
   {
     slug: "ksqldb-pipeline-sales",
@@ -239,6 +331,21 @@ export const projects: Project[] = [
       "Postgres → Postgres end to end",
     ],
     techStack: ["Kafka", "KSQLDB", "Kafka Connect", "PostgreSQL"],
+    architecture: {
+      caption:
+        "SQL-first streaming ETL: CDC from Postgres into Kafka, transformed in KSQLDB, written back via a custom sink connector.",
+      flow: [
+        { label: "PostgreSQL", sub: "OLTP source", kind: "source" },
+        { label: "Debezium", sub: "Change Data Capture", kind: "cdc" },
+        { label: "Apache Kafka", sub: "Event streaming", kind: "stream" },
+        { label: "KSQLDB", sub: "Streaming ETL (SQL)", kind: "processing" },
+        { label: "PostgreSQL", sub: "via custom sink", kind: "warehouse" },
+      ],
+      supporting: [
+        { label: "Sink", items: ["Custom Kafka Connect"] },
+        { label: "Infrastructure", items: ["Docker", "Zookeeper"] },
+      ],
+    },
   },
   {
     slug: "pentaho-pipeline",
@@ -266,6 +373,20 @@ export const projects: Project[] = [
       "PostgreSQL",
       "MongoDB",
     ],
+    architecture: {
+      caption:
+        "Multi-source ETL in Pentaho — incremental load, merge, and dimensional modeling — landing in ClickHouse.",
+      flow: [
+        { label: "Multi-DB Sources", sub: "MySQL · Oracle · MSSQL · PG · Mongo", kind: "source" },
+        { label: "Pentaho ETL", sub: "Load & merge (incremental)", kind: "processing" },
+        { label: "Dimension Tables", sub: "Star-schema build", kind: "processing" },
+        { label: "ClickHouse", sub: "Analytics store", kind: "warehouse" },
+      ],
+      supporting: [
+        { label: "Scheduling", items: ["Daily job (1 AM)"] },
+        { label: "Infrastructure", items: ["Docker"] },
+      ],
+    },
   },
 
   // ────────────────── MACHINE LEARNING / DATA SCIENCE ──────────────
@@ -296,6 +417,18 @@ export const projects: Project[] = [
       "DenseNet",
       "Flask",
     ],
+    architecture: {
+      caption:
+        "Image classification pipeline: from a small Kaggle dataset through CNN training and model comparison to a Flask web app.",
+      flow: [
+        { label: "Image Dataset", sub: "Kaggle · 3 diseases", kind: "source" },
+        { label: "Preprocessing", sub: "Resize & augment", kind: "processing" },
+        { label: "CNN Models", sub: "Custom · AlexNet · VGG19 · DenseNet", kind: "processing" },
+        { label: "Evaluation", sub: "Accuracy compare", kind: "analytics" },
+        { label: "Flask App", sub: "Web deployment", kind: "app" },
+      ],
+      supporting: [{ label: "Frameworks", items: ["TensorFlow / Keras"] }],
+    },
   },
   {
     slug: "jkii-stock-prediction",
@@ -324,6 +457,17 @@ export const projects: Project[] = [
       "Streamlit",
       "Yahoo Finance API",
     ],
+    architecture: {
+      caption:
+        "Time-series forecasting: JKII prices through feature prep, five models, multi-metric evaluation, and a Streamlit app.",
+      flow: [
+        { label: "Yahoo Finance", sub: "JKII close price", kind: "source" },
+        { label: "Preprocessing", sub: "Feature engineering", kind: "processing" },
+        { label: "Models", sub: "LSTM · XGBoost · SVR …", kind: "processing" },
+        { label: "Evaluation", sub: "MAPE · RMSE · Huber", kind: "analytics" },
+        { label: "Streamlit App", sub: "Deployment", kind: "app" },
+      ],
+    },
   },
 
   // ─────────────────────────── DATA ANALYSIS ──────────────────────
@@ -346,6 +490,16 @@ export const projects: Project[] = [
     ],
     context: "DQLab bootcamp final task",
     techStack: ["SQL", "Python", "Pandas", "EDA"],
+    architecture: {
+      caption:
+        "Merging three datasets with SQL, then cleaning and exploratory analysis across price, reviews, host, and room type.",
+      flow: [
+        { label: "3 Datasets", sub: "DQLab", kind: "source" },
+        { label: "SQL Merge", sub: "Join sources", kind: "processing" },
+        { label: "Cleaning", sub: "Feature selection", kind: "processing" },
+        { label: "EDA", sub: "Price · reviews · host · room", kind: "analytics" },
+      ],
+    },
   },
   {
     slug: "credit-risk",
@@ -373,6 +527,17 @@ export const projects: Project[] = [
       "scikit-learn",
       "Streamlit",
     ],
+    architecture: {
+      caption:
+        "Credit-risk modeling: EDA, five ML models, and a Streamlit app for live risk predictions.",
+      flow: [
+        { label: "Credit Dataset", sub: "Loan data", kind: "source" },
+        { label: "EDA & Prep", sub: "Cleaning + features", kind: "processing" },
+        { label: "Models", sub: "XGBoost · ANN · RF · DT · SVM", kind: "processing" },
+        { label: "Evaluation", sub: "Risk scoring", kind: "analytics" },
+        { label: "Streamlit App", sub: "Predictions", kind: "app" },
+      ],
+    },
   },
   {
     slug: "motorized-vehicle-sales",
@@ -392,6 +557,16 @@ export const projects: Project[] = [
     ],
     context: "Tetris Batch 3 capstone",
     techStack: ["SQL", "Python", "Pandas"],
+    architecture: {
+      caption:
+        "Analyzing Indonesian car-sales data (Gaikindo) with SQL and Python to surface market trends.",
+      flow: [
+        { label: "Gaikindo Data", sub: "Car sales", kind: "source" },
+        { label: "SQL Analysis", sub: "Aggregation", kind: "processing" },
+        { label: "Python Analysis", sub: "Trends & segments", kind: "processing" },
+        { label: "Insights", sub: "Market report", kind: "analytics" },
+      ],
+    },
   },
 ];
 
