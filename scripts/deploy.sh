@@ -10,7 +10,7 @@ fi
 
 cd /home/ubuntu/my_portofolio
 
-git fetch --prune origin main
+git fetch --prune origin '+refs/heads/main:refs/remotes/origin/main'
 git checkout -B main origin/main
 
 sudo docker compose up -d --build --remove-orphans
