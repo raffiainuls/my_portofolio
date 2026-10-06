@@ -27,7 +27,7 @@ const spaceGrotesk = Space_Grotesk({
  * <head>. `metadataBase` should become your real domain once deployed.
  */
 export const metadata: Metadata = {
-  metadataBase: new URL("https://raffi-portfolio.vercel.app"),
+  metadataBase: new URL("https://portfolio.raffs.biz.id"),
   title: {
     default: `${profile.name} — ${profile.title}`,
     template: `%s · ${profile.name}`,
