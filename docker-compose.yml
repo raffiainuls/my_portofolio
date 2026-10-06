@@ -1,0 +1,16 @@
+services:
+  portfolio:
+    build:
+      context: .
+    container_name: my-portfolio
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3002:80"
+    networks:
+      - default
+      - caddy
+
+networks:
+  caddy:
+    external: true
+    name: lidvalid_internal

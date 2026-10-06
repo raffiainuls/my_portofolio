@@ -1,0 +1,10 @@
+.git
+.github
+.next
+node_modules
+npm-debug.log*
+README.md
+ARCHITECTURE.md
+CLAUDE.md
+CV.md
+PRD.md
